@@ -585,8 +585,11 @@ class Device(object):
         b4 = b * 4
         b6 = b * 6
         fmt = f"GPU-{b4}-{b2}-{b2}-{b2}-{b6}"
-        self.uuid = fmt % uuid_vals
 
+        expected_args = fmt.count('%')
+        padded_uuid_vals = (uuid_vals + (0,) * expected_args)[:expected_args]
+
+        self.uuid = fmt % padded_uuid_vals
         self.primary_context = None
 
     def get_device_identity(self):
